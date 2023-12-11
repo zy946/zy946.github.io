@@ -19,7 +19,7 @@
     <meta name="keywords" content="hexo,blog,zony">
 
 
-<title>Hello Hexo | Z·ON·Y</title>
+<title>SAR目标检测数据集汇总 | Z·ON·Y</title>
 
 
 
@@ -202,14 +202,14 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Hello Hexo</h1>
+            <h1 class="post-title">SAR目标检测数据集汇总</h1>
             
                 <div class="post-meta">
                     
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十二月 7, 2023&nbsp;&nbsp;17:25</a>
+                        Date: <a href="#">十二月 11, 2023&nbsp;&nbsp;21:48</a>
                         </span>
                     
                     
@@ -218,19 +218,27 @@
         </header>
 
         <div class="post-content">
-            <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+            <p>随着深度学习在计算机视觉（CV）领域的突破，SAR图像目标检测领域也开始采用这些深度学习算法，虽然和光学图像成像机理不同，但是可以借鉴CV领域的优秀算法进行改进，目前也有很多论文展现了不错的效果。下面针对SAR目标检测的学习和研究，总结一些数据集并提供下载方式，方便后续的研究。</p>
+<h2 id="MSTAR-（1996）"><a href="#MSTAR-（1996）" class="headerlink" title="MSTAR （1996）"></a>MSTAR （1996）</h2><p><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1SAdmYAOHPheAH98CLP9dQg?pwd=h2ig">百度网盘</a> (提取码:h2ig)</p>
+<ul>
+<li>运动和静止目标获取与识别（Moving and Stationary Target Acquisition and Recognition, MSTAR）数据集，是美国国防高级研究计划署(Defense Advanced Research Project Agency, DARPA) 和空军研究室(Air Force Research Laboratory, AFRL) 提供的SAR图像。</li>
+<li>采集该数据集的传感器为高分辨率的聚束式合成孔径雷达，该雷达的分辨率为0.3m×0.3m。工作在X波段，所用的极化方式为HH极化方式。对采集到的数据进行前期处理，从中提取出像素大小为128×128包含各类目标的切片图像。该数据大多是静止车辆的SAR切片图像，包含多种车辆目标在各个方位角下获取到的目标图像。</li>
+<li>MSTAR混合目标数据中包含十类军事目标的切片图像，这些军事目标分别为2S1（自行榴弹炮）、BRDM2（装甲侦察车）、BTR60（装甲运输车）、D7（推土机）、T62（坦克）、ZIL131（货运卡车）、ZSU234（自行高炮）、T72。这些目标是雷达工作在多种不同的俯仰角时，各个目标在方向上面的成像图片。</li>
+<li>数据分为标准工作条件（SOC）和扩展工作条件（EOC），标准工作条件是测试与训练SAR图像目标外形配置和型号相同，仅成像时目标的俯仰角和方位角不同，扩展工作条件是指测试与训练SAR图像有很大不同，主要是成像角度的改变、外形配置的变化以及型号不同。</li>
+<li>除了10类军事目标外，MSTAR数据集还提供了大幅场景SAR图像，包含森林、地面、建筑等杂波，可用于目标检测和识别。</li>
+</ul>
+<h2 id="OpenSARShip2-0-（2017）"><a href="#OpenSARShip2-0-（2017）" class="headerlink" title="OpenSARShip2.0 （2017）"></a>OpenSARShip2.0 （2017）</h2><p><a target="_blank" rel="noopener" href="https://aistudio.baidu.com/aistudio/datasetdetail/77017">下载链接</a></p>
+<p>OpenSARShip是由上海交通大学高级传感技术中心（AST）开发的开放式SAR图像管理和处理平台，用于SAR图像的读取、处理、可视化和算法测试。</p>
+<p>缺点：类别间样本数量极其不均衡，难以训练出较好的分类模型。</p>
+<h2 id="SAR-Ship-Dataset-（2019）"><a href="#SAR-Ship-Dataset-（2019）" class="headerlink" title="SAR-Ship-Dataset （2019）"></a>SAR-Ship-Dataset （2019）</h2><p><a target="_blank" rel="noopener" href="https://aistudio.baidu.com/aistudio/datasetdetail/54361">下载链接</a></p>
+<p>该数据集以我国国产高分三号SAR数据和Sentinel-1 SAR数据为主数据源，共采用了102景高分三号和108景Sentinel-1 SAR图像构建高分辨率SAR船舶目标深度学习样本库。目前，该深度学习样本库包含43819个船舶切片。</p>
+<h2 id="HRSID-（2020）"><a href="#HRSID-（2020）" class="headerlink" title="HRSID （2020）"></a>HRSID （2020）</h2><p><a target="_blank" rel="noopener" href="https://aistudio.baidu.com/aistudio/datasetdetail/54512">下载链接</a></p>
+<p>该数据集是电子科技大学在2020年1月发布数据集，HRSID是高分辨率SAR图像中用于船舶检测、语义分割和实例分割任务的数据集。该数据集共包含5604张高分辨率SAR图像和16951个ship实例。ISSID数据集借鉴了Microsoft Common Objects in Context (COCO)数据集的构建过程，包括不同分辨率的SAR图像、极化、海况、海域和沿海港口。该数据集是研究人员评估其方法的基准。对于HRSID, SAR图像的分辨率分别为:0.5m, 1 m, 3 m。</p>
+<h2 id="遥感数据集汇总链接"><a href="#遥感数据集汇总链接" class="headerlink" title="遥感数据集汇总链接"></a>遥感数据集汇总链接</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://aistudio.baidu.com/aistudio/projectdetail/882508">https://aistudio.baidu.com/aistudio/projectdetail/882508</a> 所有遥感数据集下载汇总</li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_27930679/article/details/110631002">https://blog.csdn.net/qq_27930679/article/details/110631002</a> 遥感目标检测数据集</li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/0YPA7Rxgtkbi207ZVaU7ZA">https://mp.weixin.qq.com/s/0YPA7Rxgtkbi207ZVaU7ZA</a> 数据分享01期|遥感目标检测数据集（更新）</li>
+</ul>
 
         </div>
 
@@ -274,7 +282,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/hexo/"># hexo</a>
+                        <a href="/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/"># 数据集</a>
                     
                         
                 </span>
@@ -287,8 +295,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2023/12/11/SAR%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%95%B0%E6%8D%AE%E9%9B%86%E6%B1%87%E6%80%BB/">SAR目标检测数据集汇总</a>
             
+            <a class="next" rel="next" href="/2023/12/07/hello-world/">Hello Hexo</a>
             
         </section>
 
