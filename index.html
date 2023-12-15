@@ -136,17 +136,17 @@
         <div class="avatar">
             <a href="/archives"><img src="http://q.qlogo.cn/headimg_dl?dst_uin=3113433603&spec=640&img_type=jpg"></a>
         </div>
-        <div class="nickname" id="nickname">:D 获取中...</div>
+        <div class="nickname" id="nickname">:)</div>
         <script>
-            fetch('https://v.api.aa1.cn/api/qqnicheng/index.php?qq=3113433603')
-              .then(response => response.text())
+            fetch('https://api.usuuu.com/qq/3113433603')
+              .then(response => response.json())
               .then(data => {
-                const nickname = document.querySelector('#nickname')
-                nickname.innerText = data.trim().replace('QQ昵称：','').replace('<br/><br/>','')
+                const nickname = document.querySelector('#nickname');
+                nickname.innerText = data.data.name||":)";
               })
               .catch(console.error)
           </script>
-        <div class="description"><p><a href='/about'><u><b>在线全能网络打工人<b/></u></a><br/>各位老板若用得着小可时，就赴汤蹈火，亦所不辞，岂有推托之理？</p>
+        <div class="description"><p><a href='/about'><u><b>网络打工人<b/></u></a><br/>各位老板若用得着小可时，就赴汤蹈火，亦所不辞，岂有推托之理？</p>
 </div>
         <div class="links">
             
@@ -181,8 +181,17 @@
             </div>
             <footer id="footer" class="footer">
     <div class="copyright">
-        <span>© Z Y | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+        <span>© Z Y | <span id="hitokoto_text_footer">:D 获取中...</span> </span>
     </div>
+    <script>
+        fetch('https://v1.hitokoto.cn/?c=b')
+          .then(response => response.json())
+          .then(data => {
+            const hitokoto = document.querySelector('#hitokoto_text_footer')
+            hitokoto.innerText = data.hitokoto
+          })
+          .catch(console.error)
+      </script>
 </footer>
 
     </div>

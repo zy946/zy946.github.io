@@ -191,8 +191,17 @@
             </div>
             <footer id="footer" class="footer">
     <div class="copyright">
-        <span>© Z Y | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+        <span>© Z Y | <span id="hitokoto_text_footer">:D 获取中...</span> </span>
     </div>
+    <script>
+        fetch('https://v1.hitokoto.cn/?c=b')
+          .then(response => response.json())
+          .then(data => {
+            const hitokoto = document.querySelector('#hitokoto_text_footer')
+            hitokoto.innerText = data.hitokoto
+          })
+          .catch(console.error)
+      </script>
 </footer>
 
     </div>

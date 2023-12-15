@@ -141,13 +141,13 @@
 <hr>
 <p>只有聪明人才能看到：</p>
 <ul>
-<li>嘴严的倾听者，打王者也行</li>
-<li>投票问卷站场子</li>
+<li>聊天吐槽打王者，投票问卷站场子</li>
 <li>Word，Excel，PPT</li>
-<li>网页，C&#x2F;C++，Python，Java</li>
-<li>单片机应用开发，代抄PCB</li>
+<li>web前端，小程序，App</li>
+<li>C&#x2F;C++，Python，Java</li>
+<li>单片机应用开发</li>
 </ul>
-<p>优点：单身事少效率高，身强体壮能熬夜。</p>
+<p>优点：价格便宜好说话，质量优良效率高。</p>
 
         </section>
     </article>
@@ -156,8 +156,17 @@
             </div>
             <footer id="footer" class="footer">
     <div class="copyright">
-        <span>© Z Y | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+        <span>© Z Y | <span id="hitokoto_text_footer">:D 获取中...</span> </span>
     </div>
+    <script>
+        fetch('https://v1.hitokoto.cn/?c=b')
+          .then(response => response.json())
+          .then(data => {
+            const hitokoto = document.querySelector('#hitokoto_text_footer')
+            hitokoto.innerText = data.hitokoto
+          })
+          .catch(console.error)
+      </script>
 </footer>
 
     </div>
