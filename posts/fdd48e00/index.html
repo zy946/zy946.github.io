@@ -1,0 +1,804 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.ico">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zy">
+  <meta name="keywords" content="代码,技术,工具,生活,博客,随笔,分享">
+  
+    <meta name="description" content="在用Ardunio的TFT_espi这个库时每次想显示图片都要用某些已有的工具软件转换成bitmap或者数组，但是我见过的工具都只能一张一张的转换，如果想转换GIF或者视频真的太麻烦了，所以就写了两个脚本。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TFT_espi图片转换脚本">
+<meta property="og:url" content="https://zy946.github.io/posts/fdd48e00/index.html">
+<meta property="og:site_name" content="掐指不会算">
+<meta property="og:description" content="在用Ardunio的TFT_espi这个库时每次想显示图片都要用某些已有的工具软件转换成bitmap或者数组，但是我见过的工具都只能一张一张的转换，如果想转换GIF或者视频真的太麻烦了，所以就写了两个脚本。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://n.sinaimg.cn/sinakd202042s/556/w356h200/20200402/d6ea-irtymmv4160044.gif">
+<meta property="article:published_time" content="2023-07-22T10:32:38.000Z">
+<meta property="article:modified_time" content="2024-06-18T03:55:03.064Z">
+<meta property="article:author" content="zy">
+<meta property="article:tag" content="Ardunio">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://n.sinaimg.cn/sinakd202042s/556/w356h200/20200402/d6ea-irtymmv4160044.gif">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>TFT_espi图片转换脚本 - 掐指不会算</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zy946.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":50,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>掐指不会算</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tool/" target="_self">
+                <i class="iconfont icon-mini-program-fill"></i>
+                <span>工具</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="TFT_espi图片转换脚本"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-07-22 18:32" pubdate>
+          2023年7月22日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          848 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          8 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">TFT_espi图片转换脚本</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>在用Ardunio的TFT_espi这个库时每次想显示图片都要用某些已有的工具软件转换成bitmap或者数组，但是我见过的工具都只能一张一张的转换，如果想转换GIF或者视频真的太麻烦了，所以就写了两个脚本。</p>
+</blockquote>
+<span id="more"></span>
+
+<p>完整代码在<a target="_blank" rel="noopener" href="https://gitee.com/Zone2515/esp32/tree/master/%E5%A4%A9%E6%B0%94%E6%97%B6%E9%92%9F/%E5%9B%BE%E5%83%8F%E8%BD%AC%E6%8D%A2%E8%84%9A%E6%9C%AC">图像转换脚本</a>，这里只记录一些关键的地方。</p>
+<h2 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h2><p>许多图形库提供的接口都是显示bitmap或者图像数组是，所以我先把常见格式的图片或者动图转成bmp，然后再把RGB888的bmp转成RGB565的数组。</p>
+<h3 id="按系统顺序读取目录下所有图片文件"><a href="#按系统顺序读取目录下所有图片文件" class="headerlink" title="按系统顺序读取目录下所有图片文件"></a>按系统顺序读取目录下所有图片文件</h3><p>像os.listdir()或者glob.glob()返回地顺序是乱的，对于文件名有规律地可以自己实现排序，但是对于没有规律的自己排序还是比较麻烦的。</p>
+<p><code>natsort</code>这个包可以对文件名排序，非常方便地排成和我们在资源管理器看到的文件顺序一样。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_image_files</span>(<span class="hljs-params">folder_path</span>):<br>    pattern = <span class="hljs-string">r&quot;.*\.(jpg|jpeg|png|bmp|gif|webp|ico|pbm|pgm|ppm|mp4)$&quot;</span><br>    image_files = []<br>    files = os.listdir(folder_path)<br>    <span class="hljs-keyword">for</span> file_name <span class="hljs-keyword">in</span> natsorted(files,alg=ns.PATH):<br>        <span class="hljs-keyword">if</span> re.<span class="hljs-keyword">match</span>(pattern, file_name, re.IGNORECASE):<br>            image_files.append(os.path.join(folder_path, file_name))<br>    <span class="hljs-keyword">return</span> image_files<br></code></pre></td></tr></table></figure>
+
+
+<h3 id="读取GIF"><a href="#读取GIF" class="headerlink" title="读取GIF"></a>读取GIF</h3><p>缩放指定大小，均匀采样指定帧数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">read_gif</span>(<span class="hljs-params">gif: Image.Image, dsize: <span class="hljs-built_in">tuple</span>[<span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span>], maximum_frames=<span class="hljs-number">0</span></span>) -&gt; <span class="hljs-built_in">list</span>[Image.Image]:<br>    <span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">    @param gif: Image 源GIF</span><br><span class="hljs-string">    @param dsize: (int,int) 目标图像的(宽度，高度)</span><br><span class="hljs-string">    @param maximum_frames: int 保留帧数</span><br><span class="hljs-string">    @return [Image.Image,...]</span><br><span class="hljs-string">    &#x27;&#x27;&#x27;</span><br>    frames = gif.n_frames<br>    gif.info[<span class="hljs-string">&#x27;frames&#x27;</span>] = frames<br>    f = <span class="hljs-built_in">min</span>(frames, maximum_frames) <span class="hljs-keyword">if</span> maximum_frames &gt; <span class="hljs-number">0</span> <span class="hljs-keyword">else</span> frames<br>    step = math.ceil(frames/f)<br>    counter = <span class="hljs-number">0</span><br>    aframes = []<br>    <span class="hljs-keyword">for</span> frame <span class="hljs-keyword">in</span> ImageSequence.Iterator(gif):<br>        <span class="hljs-keyword">if</span> counter % step == <span class="hljs-number">0</span>:<br>            aframes.append(frame.resize(dsize))<br>        counter += <span class="hljs-number">1</span><br>    <span class="hljs-keyword">return</span> aframes<br></code></pre></td></tr></table></figure>
+
+<h3 id="读取mp4"><a href="#读取mp4" class="headerlink" title="读取mp4"></a>读取mp4</h3><p>跟GIF类似，但是PIL没找到读取时视频文件的方法，这里用了opencv</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">read_mp4</span>(<span class="hljs-params">file: <span class="hljs-built_in">str</span>, dsize: <span class="hljs-built_in">tuple</span>[<span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span>], maximum_frames=<span class="hljs-number">0</span></span>):<br>    <span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">    @param file: str MP4文件路径</span><br><span class="hljs-string">    @param dsize: (int,int) 目标图像的(宽度，高度)</span><br><span class="hljs-string">    @param maximum_frames: int 保留帧数</span><br><span class="hljs-string">    @return [Image.Image(), ...]</span><br><span class="hljs-string">    &#x27;&#x27;&#x27;</span><br>    aframes = []<br>    cap = cv.VideoCapture(file)<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> cap.isOpened():<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;无法打开视频文件:&quot;</span>, file)<br>        cap.release()<br>        <span class="hljs-keyword">return</span> aframes<br>    frames = <span class="hljs-built_in">int</span>(cap.get(cv.CAP_PROP_FRAME_COUNT))<br>    f = <span class="hljs-built_in">min</span>(frames, maximum_frames) <span class="hljs-keyword">if</span> maximum_frames &gt; <span class="hljs-number">0</span> <span class="hljs-keyword">else</span> frames<br>    step = math.ceil(frames/f)<br>    ret = <span class="hljs-literal">True</span><br>    counter = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span> ret:<br>        ret, frame = cap.read()<br>        <span class="hljs-keyword">if</span> frame <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>            frame = cv.cvtColor(frame,cv.COLOR_BGR2RGB)<br>            <span class="hljs-keyword">if</span> counter % step == <span class="hljs-number">0</span>:<br>                aframes.append(Image.fromarray(cv.resize(frame,dsize)))<br>            counter+=<span class="hljs-number">1</span><br>    cap.release()<br>    <span class="hljs-keyword">return</span> aframes<br></code></pre></td></tr></table></figure>
+
+<h3 id="bmp转RGB565-hex数组"><a href="#bmp转RGB565-hex数组" class="headerlink" title="bmp转RGB565 hex数组"></a>bmp转RGB565 hex数组</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">bmp_to_hex_RGB565</span>(<span class="hljs-params">filepath,head=<span class="hljs-string">&#x27;&#x27;</span>,tail=<span class="hljs-string">&#x27;&#x27;</span></span>) -&gt;<span class="hljs-built_in">str</span>:<br>    image = Image.<span class="hljs-built_in">open</span>(filepath)<br>    image = image.convert(<span class="hljs-string">&quot;RGB&quot;</span>)<br>    width, height = image.size<br>    image_data = []<br>    <span class="hljs-keyword">for</span> y <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(height):<br>        <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(width):<br>            r, g, b = image.getpixel((x, y))<br>            pixel = ((r &amp; <span class="hljs-number">0xF8</span>) &lt;&lt; <span class="hljs-number">8</span>) | ((g &amp; <span class="hljs-number">0xFC</span>) &lt;&lt; <span class="hljs-number">3</span>) | (b &gt;&gt; <span class="hljs-number">3</span>)<br>            image_data.append(pixel)<br>    hex_data = [<span class="hljs-built_in">hex</span>(pixel) <span class="hljs-keyword">for</span> pixel <span class="hljs-keyword">in</span> image_data]<br>    <span class="hljs-keyword">return</span> head+<span class="hljs-built_in">str</span>(hex_data).replace(<span class="hljs-string">&#x27;\&#x27;&#x27;</span>,<span class="hljs-string">&#x27;&#x27;</span>).replace(<span class="hljs-string">&#x27;[&#x27;</span>, <span class="hljs-string">&#x27;&#123;&#x27;</span>).replace(<span class="hljs-string">&#x27;]&#x27;</span>, <span class="hljs-string">&#x27;&#125;&#x27;</span>)+tail<br></code></pre></td></tr></table></figure>
+<h2 id="脚本使用说明"><a href="#脚本使用说明" class="headerlink" title="脚本使用说明"></a>脚本使用说明</h2><h3 id="tobmp-py"><a href="#tobmp-py" class="headerlink" title="tobmp.py"></a>tobmp.py</h3><p>输入输出如下</p>
+<ul>
+<li>GIF&#x2F;mp4👉文件目录下创建同名目录存放bmp</li>
+<li>图片文件&#x2F;图片文件目录👉文件目录下创建输出目录存放bmp</li>
+</ul>
+<p>options:</p>
+<ul>
+<li>-h, –help</li>
+<li>-F FOLDERPATH, –folderpath FOLDERPATH<br>                图片所在文件夹</li>
+<li>-W WIDTH, –width WIDTH<br>                缩放后图像的宽度</li>
+<li>-H HEIGHT, –height HEIGHT<br>                缩放后图像的高度</li>
+<li>-f FRAMES, –frames FRAMES<br>                GIF文件保留帧数</li>
+<li>-v FRAMENUM, –framenum FRAMENUM<br>                查看文件帧数</li>
+</ul>
+<p><img src="https://n.sinaimg.cn/sinakd202042s/556/w356h200/20200402/d6ea-irtymmv4160044.gif" srcset="/img/loading.gif" lazyload alt="gege.gif"></p>
+<p>&gt;&gt;<code>python .\tobmp.py -F .\imgs\gege.gif -W 64 -H 64 -v 1</code></p>
+<p>&gt;&gt;<code>文件帧数：212</code></p>
+<p>&gt;&gt;<code>python .\tobmp.py -F .\imgs\gege.gif -W 64 -H 64 -f 106</code></p>
+<p>就会在imgs目录下生成bmps目录，bmps目录里有gege目录，gege目录里有106张64×64 bmp图像并且文件名为0-105。</p>
+<h3 id="bmptohex-RGB565-py"><a href="#bmptohex-RGB565-py" class="headerlink" title="bmptohex_RGB565.py"></a>bmptohex_RGB565.py</h3><p>输入输出如下</p>
+<ul>
+<li>bmp文件👉一维数组</li>
+<li>bmp所在目录👉n维数组</li>
+</ul>
+<p>options:</p>
+<ul>
+<li>-h, –help show this help message and exit</li>
+<li>-F PATH, –path PATH  bmp图片或bmp图片目录路径</li>
+</ul>
+<p>&gt;&gt;<code>python .\bmptohex_RGB565.py -F .\imgs\bmps\gege\</code></p>
+<p>就会在imgs\bmps\gege下生成hexRGB565.txt文件，复制此内容到Ardunio稍加修改即可食用。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%B7%A5%E5%85%B7/" class="category-chain-item">工具</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Ardunio/" class="print-no-link">#Ardunio</a>
+      
+        <a href="/tags/Python/" class="print-no-link">#Python</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>TFT_espi图片转换脚本</div>
+      <div>https://zy946.github.io/posts/fdd48e00/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>zy</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年7月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/a2676cd4/" title="Hexo(Hello World)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hexo(Hello World)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/3d8c967c/" title="读《Transformer》">
+                        <span class="hidden-mobile">读《Transformer》</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <span>ZY</span> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>hexo-theme-fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
