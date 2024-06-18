@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>卷积池化公式计算器</title>
+    <style type="text/css">
+        body{
+            font-family: STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑";
+        }
+        .container{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        #main{
+            min-width: 400px;
+            width: 70%;
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        #myUL li{
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border-bottom: 1px solid #aaaaaa;
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            font-size: 20px;
+           
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        #myUL li input{
+            width: 50%;
+            padding: 8px;
+            height: 30px;
+            font-size: 20px;
+        }
+        .btns{
+            width: 100%;
+            height: max-content;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        .bt {
+            width: 100px;
+            height: 40px;
+            font-size: 20px;
+            line-height: 40px;
+            text-align: center;
+            margin: 20px 20px;
+            border-radius: 5px;
+            background-color: #c82829;
+            color: #FFF;
+            cursor: pointer;
+            user-select: none;
+        }
+        .bt:hover{
+            background-color: #a94442;
+        }
+        #rdiv{
+            min-width: 400px;
+
+            height: 600px;
+            margin: 0px;
+            padding: 10px;
+            overflow-y: scroll;
+            border-left: #009f30 1px solid;
+            border-bottom: #009f30 1px solid;
+            border-radius: 10px;
+        }
+        .oneL{
+            padding: 10px;
+            border-bottom: 1px solid #efefef;
+        }
+    
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="main">
+        <div style="padding: 20px;text-align: start;font-size: 24px;color: #004C42;">卷积池化尺寸公式计算器</div>
+        <ul id="myUL">
+            <li>Width：<input id="w" value="512" type="number"></li>
+            <li>Height：<input id="h" value="512" type="number"></li>
+            <li>kernel Size：<input id="f" value="3" type="number"></li>
+            <li>Step：<input id="s" value="1" type="number"></li>
+            <li>Padding：<input id="p" value="0" type="number"></li>
+        </ul>
+        <div class="btns">
+            <div id="cbt" class="bt">卷积</div>
+            <div id="pbt" class="bt">池化</div>
+        </div>
+        <div style="text-align: start;font-size: 14px;margin: 10px;min-width:400px;">输入对应数值后即可进行卷积计算，每次卷积计算之后会自动修改输入框中的宽度和高度值，方便下次输入。池化操作不用输入padding。</div>
+    </div>
+    <div id="rdiv">
+        <div style="font-weight: bold;padding: 8px;">计算结果：<span id="clearbt" style="padding: 5px;background-color: #888888;" class="bt">清空结果</span></div>
+        <div id="resultDiv" style="padding: 8px;"></div>
+    </div>
+    
+</div>
+
+<script src="js/jquery-3.3.1.min.js" ></script>
+<script>
+    $("#cbt").click(function () {
+
+        let w = parseFloat($("#w").val());
+        let h = parseFloat($("#h").val());
+        let f = parseFloat($("#f").val());
+        let s = parseFloat($("#s").val());
+        let p = parseFloat($("#p").val());
+        let n_w = parseInt((w-f+2*p)/s+1);
+        let n_h = parseInt((h-f+2*p)/s+1);
+        let result = `<div class='oneL'>🟡w:${w}，h:${h}，k:${f}，s:${s}，p:${p}<br> 🟢 <strong>w：${n_w}，h：${n_h}</strong></div>`;
+        $("#w").val(n_w);
+        $("#h").val(n_h);
+        $("#resultDiv").append(result)
+    })
+    $("#pbt").click(function () {
+
+        let w = parseFloat($("#w").val());
+        let h = parseFloat($("#h").val());
+        let f = parseFloat($("#f").val());
+        let s = parseFloat($("#s").val());
+        let p = parseFloat($("#p").val());
+        let n_w = parseInt((w-f)/s+1);
+        let n_h = parseInt((h-f)/s+1);
+        let result = `<div class='oneL'>🟡w:${w}，h:${h}，k:${f}，s:${s}<br>🟢 <strong>w:${n_w}，h:${n_h}</strong></div>`;
+        $("#w").val(n_w);
+        $("#h").val(n_h);
+        $("#resultDiv").append(result)
+    })
+    $("#clearbt").click(function () {
+        $("#resultDiv").empty();
+    })
+</script>
+<script>
+    // $(document).ready(function(){
+    //     if(window.innerWidth<1000){
+    //         $("#ghContainer").css("width","100vw");
+    //     }else{
+    //         $("#ghContainer").css("width","1024px");
+    //     }
+    //     if(window.innerWidth<1000){
+    //         $("#usContainer").css("width","100vw");
+    //     }else{
+    //         $("#usContainer").css("width","1024px");
+    //     }
+
+    // });
+    
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-0e7998ce","path":"/lvgl/overview.html","title":"概述","lang":"en-US","frontmatter":{},"headers":[{"level":2,"title":"参考文档","slug":"参考文档","link":"#参考文档","children":[]}],"git":{},"filePathRelative":"lvgl/overview.md"}');export{e as data};

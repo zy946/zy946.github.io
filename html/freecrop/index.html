@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="https://img.51miz.com/Element/00/36/65/78/8abd6a16_E366578_a65f7445.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="在线图片(精灵图，大图)自由裁剪">
+  <title>PngFreeCropping</title>
+  
+  <script type="module" crossorigin src="/html/freecrop/assets/index-868ae8fc.js"></script>
+  <link rel="stylesheet" href="/html/freecrop/assets/index-27e20d00.css">
+</head>
+
+<body>
+  <h1>
+    Png free-cropping
+  </h1>
+  
+  <div id="app">
+    <div class="left">
+      <img id="img" src="" alt="">
+    </div>
+    <div class="right">
+      <div id="previewbox"></div>
+      <div class="control">
+        <input type="file" id="fileinput">
+      </div>
+      <button id="okbtn">裁剪</button>
+      <button id="savebtn">保存</button>    
+      <div id="previewImgs"></div>
+    </div>
+  </div>
+  <p style="font-size: small; text-align: center;">
+    <a href="https://zone2515.gitee.io/">
+      zony
+    </a>
+  </p>
+
+  
+</body>
+<style>
+  #img {
+    width: 100%;
+    height: 80vh;
+    object-fit: scale-down;
+    overflow: hidden;
+  }
+  #previewbox{
+    width: 100%;
+    height: 100px;
+    object-fit: scale-down;
+    overflow: hidden;
+  }
+  #previewImgs{
+    width: 100%;
+    overflow-y: scroll;
+    height: 200px;
+  }
+</style>
+
+</html>
