@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/img/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QQ强制加好友</title>
+  <meta name="description" content="QQ强制加好友" />
+</head>
+  <style>
+    .input-control {
+      outline: none;
+      height: 35px;
+      border: 1px solid #808080;
+      line-height: 35px;
+    }
+
+    .input-control:placeholder-shown::placeholder {
+      color: transparent;
+    }
+
+    #inpit-box {
+      position: relative;
+      margin: 20px auto;
+    }
+
+    .input-label {
+      position: absolute;
+      left: 16px;
+      top: 9px;
+      pointer-events: none;
+      color: #808080;
+      font-size: 13px;
+    }
+
+    .input-control:focus {
+      border: 1px solid #007FFF;
+    }
+
+    .input-control:not(:placeholder-shown)~.input-label,
+    .input-control:focus~.input-label {
+      color: #007FFF;
+      background-color: white;
+      padding-left: 3px;
+      padding-right: 3px;
+      transform: scale(0.75) translate(-2px, -25px);
+      transition: 0.5s;
+    }
+
+    .btn {
+      position: relative;
+
+      display: block;
+      margin: 20px auto;
+      padding: 0;
+
+      overflow: hidden;
+
+      border-width: 0;
+      outline: none;
+      border-radius: 2px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+
+      background-color: #2ecc71;
+      color: #ecf0f1;
+
+      transition: background-color .3s;
+    }
+
+    .btn:hover,
+    .btn:focus {
+      background-color: #27ae60;
+    }
+
+    .btn>* {
+      position: relative;
+    }
+
+    .btn span {
+      display: block;
+      padding: 12px 24px;
+    }
+
+    .btn:before {
+      content: "";
+
+      position: absolute;
+      top: 50%;
+      left: 50%;
+
+      display: block;
+      width: 0;
+      padding-top: 0;
+
+      border-radius: 100%;
+
+      background-color: rgba(236, 240, 241, .3);
+
+      -webkit-transform: translate(-50%, -50%);
+      -moz-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      -o-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+
+    .btn:active:before {
+      width: 120%;
+      padding-top: 120%;
+
+      transition: width .2s ease-out, padding-top .2s ease-out;
+    }
+
+    .btn.orange {
+      background-color: #e67e22;
+    }
+
+    .btn.orange:hover,
+    .btn.orange:focus {
+      background-color: #d35400;
+    }
+
+    .btn.red {
+      background-color: #e74c3c;
+    }
+
+    .btn.red:hover,
+    .btn.red:focus {
+      background-color: #c0392b;
+    }
+
+    body {
+      position: absolute;
+      left: 50%;
+      top: 65%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      -webkit-transform: translate(-50%, -50%);
+      -moz-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      -o-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+
+      color: #34495e;
+      font-family: Trebuchet, Arial, sans-serif;
+    }
+    .btns{
+      position: relative;
+      top: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 style="font-size: medium;">QQ强制聊天</h1>
+  <div id="inpit-box">
+    <input class="input-control" id="input-qq" placeholder="请输入QQ号" type="text"
+      oninput="value=value.replace(/[^\d]/g,'')" />
+    <label class="input-label">QQ号码</label>
+  </div>
+
+  <div class="btns">
+    <button class="btn" type="button" onclick="jumpToChat()"><span>QQ临时会话</span></button>
+    <button class="btn orange" type="button" onclick="jumpToWPA()"><span>QQ强制聊天</span></button>
+    <button class="btn red" type="button" onclick="jumpToAddFriend()"><span>跳转QQ加好友界面</span></button>
+  </div>
+
+  <div>
+    <ol>
+      <strong>注意事项</strong>
+      <li>
+        如果弹出“必须加好友才能对话”可能是别人开启了防骚扰设置，如开启了此项设置则对话不会成功。
+      </li>
+      <li>如果对方QQ版本过低，则可能提示“对方QQ版本过低不支持此功能”</li>
+    </ol>
+    <ul>
+      <strong>使用说明</strong>
+      <li>QQ临时会话：跳转聊天界面，一般只支持已开启临时会话的QQ</li>
+      <li>QQ强制聊天：WPA临时会话，从网页跳转聊天界面，与第一个按钮功能差不多</li>
+      <li>跳转加好友界面：可解决QQ设置不允许被搜索后无法加好友的问题</li>
+    </ul>
+  </div>
+
+  <script>
+    function jumpToChat() {
+      var qq = document.getElementById("input-qq").value;
+      var url = "mqqwpa://im/chat?chat_type=wpa&version=1&src_type=web&web_src=oicqzone.com&uin=" + qq;
+      window.location.href = url;
+    }
+
+    function jumpToAddFriend() {
+      var qq = document.getElementById("input-qq").value;
+      var url = "mqq://card/show_pslcard?src_type=internal&version=1&uin=" + qq + "&card_type=person&source=sharecard";
+      window.location.href = url;
+    }
+
+    function jumpToWPA() {
+      var qq = document.getElementById("input-qq").value;
+      var url = "https://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=" + qq;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+
+</html>
